@@ -16,15 +16,33 @@
  *
  */
 
-package com.tencent.shadow.test.cases.plugin_main;
+package com.tencent.shadow.test.cases.plugin_multidex;
+
+import android.content.Intent;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import com.tencent.shadow.test.PluginTest;
-import com.tencent.shadow.test.lib.constant.Constant;
 
-public abstract class PluginMainAppTest extends PluginTest {
+import org.junit.Test;
+
+public abstract class PluginMultiDexAppTest extends PluginTest {
+
+    abstract protected String getActivityName();
 
     @Override
-    protected String getPartKey() {
-        return Constant.PART_KEY_PLUGIN_MAIN_APP;
+    protected Intent getLaunchIntent() {
+        Intent pluginIntent = new Intent();
+        String packageName = ApplicationProvider.getApplicationContext().getPackageName();
+        pluginIntent.setClassName(
+                packageName,
+                getActivityName()
+        );
+        return pluginIntent;
+    }
+
+    @Test
+    public void testSuccessLaunch() {
+        //assert no crash
     }
 }
